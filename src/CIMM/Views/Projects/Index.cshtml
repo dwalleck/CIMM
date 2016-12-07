@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<CIMM.Models.Project>
+
+<h2>Projects</h2>
+
+<p>
+    <a asp-controller="Projects" asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Code</th>
+        <th>CI</th>
+        <th></th>
+    </tr>
+    @foreach (var project in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => project.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => project.CodeUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => project.CIUrl)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@project.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@project.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@project.Id">Delete</a>
+            </td>
+
+        </tr>
+    }
+</table>
