@@ -13,6 +13,6 @@ namespace CIMM.Models
         public string CodeUrl { get; set; }
         public string CIUrl { get; set; }
 
-        public Accomplishments Accomplishments { get; set; }
+        public List<ProjectAchievement> ProjectAchievements { get; set; }
     }
 }

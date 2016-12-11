@@ -14,7 +14,7 @@ namespace CIMM.Data
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var project = new Project
+            /*var project = new Project
             {
                 Name = "Compute",
                 Description = "OpenStack Compute Project",
@@ -36,7 +36,7 @@ namespace CIMM.Data
             };
 
             context.Accomplishments.Add(accomplishments);
-            context.SaveChanges();
+            context.SaveChanges();*/
         }
     }
 }

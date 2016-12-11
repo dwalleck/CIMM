@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CIMM.Models.Achievement>
+
+<h2>Achievements</h2>
+
+<p>
+    <a asp-controller="Achievements" asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Score</th>
+        <th></th>
+    </tr>
+    @foreach (var achievement in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => achievement.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => achievement.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => achievement.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => achievement.Score)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@achievement.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@achievement.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@achievement.Id">Delete</a>
+            </td>
+
+        </tr>
+    }
+</table>
