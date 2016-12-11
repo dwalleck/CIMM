@@ -12,5 +12,7 @@ namespace CIMM.Models
         public string Description { get; set; }
         public string CodeUrl { get; set; }
         public string CIUrl { get; set; }
+
+        public Accomplishments Accomplishments { get; set; }
     }
 }
