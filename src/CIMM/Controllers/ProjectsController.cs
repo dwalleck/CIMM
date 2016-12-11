@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using CIMM.Data;
 using CIMM.Models;
+using CIMM.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,6 +53,31 @@ namespace CIMM.Controllers
             _context.Projects.Remove(project);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult AwardAchievements(int id)
+        {
+            var project = _context.Projects.Where(p => p.Id == id).FirstOrDefault();
+            if (project == null)
+            {
+                return NotFound();
+            }
+            var achievements = _context.Achievements.ToList();
+            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.Id, a.Name, false)).ToList();
+
+            var vm = new AwardAchievementsViewModel(project.Name, achievementsVM);
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AwardAchievements(int id, AwardAchievementsViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            return NotFound();
         }
     }
 }
