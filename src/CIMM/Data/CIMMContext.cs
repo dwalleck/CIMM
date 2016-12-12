@@ -15,9 +15,11 @@ namespace CIMM.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<ProjectAchievement> ProjectAchievements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<ProjectAchievement>()
                 .HasKey(pa => new { pa.ProjectId, pa.AchievementId });
 

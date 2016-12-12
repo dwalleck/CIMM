@@ -21,16 +21,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Achievement.Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Achievement.Description" class="form-control" />
-                <span asp-validation-for="Achievement.Description" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
             <label asp-for="Achievement.Type" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="Achievement.Type" class="form-control" asp-items="@Model.">
+                <select asp-for="Achievement.Type" class="form-control" asp-items="@Model.AchievementTypes">
                     <option>Select</option>
                 </select>
                 <span asp-validation-for="Achievement.Type" class="text-danger"></span>

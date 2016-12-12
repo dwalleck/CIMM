@@ -10,6 +10,8 @@ namespace CIMM.Models
         public int ProjectId { get; set; }
         public Project Project { get; set; }
 
+        public bool HasAchievement { get; set; }
+
         public int AchievementId { get; set; }
         public Achievement Achievement { get; set; }
     }

@@ -22,7 +22,7 @@ namespace CIMM.Controllers
         public IActionResult Create()
         {
             var achievements = _context.Achievements.ToList();
-            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.Id, a.Name, false)).ToArray();
+            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.AchievementId, a.Name, false)).ToArray();
 
             return View(achievementsVM);
         }

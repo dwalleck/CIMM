@@ -44,7 +44,7 @@ namespace CIMM.Controllers
 
         public IActionResult Delete(int id)
         {
-            var achievement = _context.Achievements.Where(a => a.Id == id).FirstOrDefault();
+            var achievement = _context.Achievements.Where(a => a.AchievementId == id).FirstOrDefault();
             if (achievement == null)
             {
                 return NotFound();

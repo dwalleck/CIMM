@@ -45,7 +45,7 @@ namespace CIMM.Controllers
 
         public IActionResult Delete(int id)
         {
-            var project = _context.Projects.Where(p => p.Id == id).FirstOrDefault();
+            var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
             if (project == null)
             {
                 return NotFound();
@@ -57,13 +57,13 @@ namespace CIMM.Controllers
 
         public IActionResult AwardAchievements(int id)
         {
-            var project = _context.Projects.Where(p => p.Id == id).FirstOrDefault();
+            var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
             if (project == null)
             {
                 return NotFound();
             }
             var achievements = _context.Achievements.ToList();
-            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.Id, a.Name, true)).ToArray();
+            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.AchievementId, a.Name, true)).ToArray();
 
             var vm = new AwardAchievementsViewModel(achievementsVM);
             return View(vm);
@@ -75,9 +75,29 @@ namespace CIMM.Controllers
 
             if (ModelState.IsValid)
             {
+                var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
+                if (project == null)
+                {
+                    return NotFound();
+                }
+
+                var projectAchievements = vm.AchievementStatuses.Select(
+                    a => new ProjectAchievement { ProjectId = project.ProjectId, AchievementId = a.AchievementId, HasAchievement = a.HasAchievement }).ToList();
+
+                if (project.ProjectAchievements == null)
+                {
+                    project.ProjectAchievements = projectAchievements;
+                }
+                else
+                {
+                    //project.ProjectAchievements.ElementAt(0).HasAchievement = false;
+                }
+                
+                _context.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            return NotFound();
+            return View(vm);
         }
     }
 }

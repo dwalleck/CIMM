@@ -26,9 +26,9 @@
                 @Html.DisplayFor(modelItem => project.CIUrl)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@project.Id">Edit</a> |
-                <a asp-action="AwardAchievements" asp-route-id="@project.Id">Achievements</a> |
-                <a asp-action="Delete" asp-route-id="@project.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@project.ProjectId">Edit</a> |
+                <a asp-action="AwardAchievements" asp-route-id="@project.ProjectId">Achievements</a> |
+                <a asp-action="Delete" asp-route-id="@project.ProjectId">Delete</a>
             </td>
 
         </tr>
