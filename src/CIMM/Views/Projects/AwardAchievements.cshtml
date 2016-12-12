@@ -1,18 +1,21 @@
 ﻿@model CIMM.ViewModels.AwardAchievementsViewModel
-@using CIMM.ViewModels
 
-<h2>Set Achievements for @Model.ProjectName</h2>
+<h2>Set Achievements for Something</h2>
 
 <form asp-controller="Projects" asp-action="AwardAchievements" method="post" class="form-horizontal" role="form">
     <div asp-validation-summary="All" class="text-danger"></div>
     
-    @foreach (ProjectAchievementViewModel item in Model.AchievementStatuses)
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    @for (int i = 0; i < @Model.AchievementStatuses.Count(); i++)
     {
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <div class="checkbox">
-                    <input asp-for="@item.HasAchievement" />
-                    <label asp-for="@item.HasAchievement">@item.AchievementName</label>
+                    <input asp-for="@Model.AchievementStatuses[i].AchievementName" hidden="hidden" />
+                    <input asp-for="@Model.AchievementStatuses[i].AchievementId" hidden="hidden" />
+                    <input asp-for="@Model.AchievementStatuses[i].HasAchievement" />
+                    <label asp-for="@Model.AchievementStatuses[i].HasAchievement">@Model.AchievementStatuses[i].AchievementName</label>
                 </div>
             </div>
         </div>

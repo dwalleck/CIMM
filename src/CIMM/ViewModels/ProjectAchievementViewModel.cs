@@ -11,6 +11,11 @@ namespace CIMM.ViewModels
         public string AchievementName { get; set; }
         public bool HasAchievement { get; set; }
 
+        public ProjectAchievementViewModel()
+        {
+
+        }
+
         public ProjectAchievementViewModel(int achievementId, string achievementName, bool hasAchievement)
         {
             AchievementId = achievementId;

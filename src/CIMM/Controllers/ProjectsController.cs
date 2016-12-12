@@ -63,9 +63,9 @@ namespace CIMM.Controllers
                 return NotFound();
             }
             var achievements = _context.Achievements.ToList();
-            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.Id, a.Name, false)).ToList();
+            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.Id, a.Name, true)).ToArray();
 
-            var vm = new AwardAchievementsViewModel(project.Name, achievementsVM);
+            var vm = new AwardAchievementsViewModel(achievementsVM);
             return View(vm);
         }
 

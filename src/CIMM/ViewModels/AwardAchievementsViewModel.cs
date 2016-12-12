@@ -9,17 +9,15 @@ namespace CIMM.ViewModels
     public class AwardAchievementsViewModel
     {
 
-        public string ProjectName { get; set; }
-        public List<ProjectAchievementViewModel> AchievementStatuses { get; set; }
+        public ProjectAchievementViewModel [] AchievementStatuses { get; set; }
 
         public AwardAchievementsViewModel()
         {
 
         }
 
-        public AwardAchievementsViewModel(string name, List<ProjectAchievementViewModel> achievementStatuses)
+        public AwardAchievementsViewModel(ProjectAchievementViewModel [] achievementStatuses)
         {
-            ProjectName = name;
             AchievementStatuses = achievementStatuses;
         }
     }
