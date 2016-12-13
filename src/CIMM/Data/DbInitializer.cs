@@ -11,7 +11,7 @@ namespace CIMM.Data
         public static void Initialize(CIMMContext context)
         {
             // For now, start clean
-            //context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             /*var project = new Project

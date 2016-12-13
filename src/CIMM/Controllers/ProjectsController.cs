@@ -38,6 +38,20 @@ namespace CIMM.Controllers
             {
                 _context.Projects.Add(project);
                 _context.SaveChanges();
+
+                // Propigate the achievements for the project
+                var achievements = _context.Achievements.ToList();
+                var projectAchievements = achievements.Select(a =>
+                    new ProjectAchievement
+                    {
+                        ProjectId = project.ProjectId,
+                        HasAchievement = false,
+                        AchievementId = a.AchievementId
+                    });
+                project.ProjectAchievements = new List<ProjectAchievement>();
+                project.ProjectAchievements.AddRange(projectAchievements);
+                _context.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -72,29 +86,23 @@ namespace CIMM.Controllers
         [HttpPost]
         public IActionResult AwardAchievements(int id, AwardAchievementsViewModel vm)
         {
-
             if (ModelState.IsValid)
             {
                 var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
+                _context.Entry(project).Collection(p => p.ProjectAchievements).Load();
+
                 if (project == null)
                 {
                     return NotFound();
                 }
 
-                var projectAchievements = vm.AchievementStatuses.Select(
-                    a => new ProjectAchievement { ProjectId = project.ProjectId, AchievementId = a.AchievementId, HasAchievement = a.HasAchievement }).ToList();
+                foreach (var achievementStatus in vm.AchievementStatuses)
+                {
+                    var projectAchievement = project.ProjectAchievements.Find(pa => pa.AchievementId == achievementStatus.AchievementId);
+                    projectAchievement.HasAchievement = achievementStatus.HasAchievement;
+                }
 
-                if (project.ProjectAchievements == null)
-                {
-                    project.ProjectAchievements = projectAchievements;
-                }
-                else
-                {
-                    //project.ProjectAchievements.ElementAt(0).HasAchievement = false;
-                }
-                
                 _context.SaveChanges();
-
                 return RedirectToAction("Index");
             }
             return View(vm);
