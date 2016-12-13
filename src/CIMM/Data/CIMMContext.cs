@@ -11,6 +11,7 @@ namespace CIMM.Data
     {
         public CIMMContext(DbContextOptions<CIMMContext> options) : base(options)
         {
+            
         }
 
         public DbSet<Project> Projects { get; set; }
