@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CIMM.Data;
 using CIMM.Models;
 using CIMM.ViewModels;
+using CIMM.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,16 +15,16 @@ namespace CIMM.Controllers
     public class ProjectsController : Controller
     {
 
-        private CIMMContext _context;
+        private ICIMMDataService _dataService;
 
-        public ProjectsController(CIMMContext context)
+        public ProjectsController(ICIMMDataService dataService)
         {
-            _context = context;
+            _dataService = dataService;
         }
 
         public IActionResult Index()
         {
-            return View(_context.Projects.ToList());
+            return View(_dataService.GetProjects());
         }
 
         public IActionResult Create()
@@ -36,22 +37,7 @@ namespace CIMM.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Projects.Add(project);
-                _context.SaveChanges();
-
-                // Propigate the achievements for the project
-                var achievements = _context.Achievements.ToList();
-                var projectAchievements = achievements.Select(a =>
-                    new ProjectAchievement
-                    {
-                        ProjectId = project.ProjectId,
-                        HasAchievement = false,
-                        AchievementId = a.AchievementId
-                    });
-                project.ProjectAchievements = new List<ProjectAchievement>();
-                project.ProjectAchievements.AddRange(projectAchievements);
-                _context.SaveChanges();
-
+                _dataService.CreateProject(project);
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -59,24 +45,18 @@ namespace CIMM.Controllers
 
         public IActionResult Delete(int id)
         {
-            var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
-            if (project == null)
-            {
-                return NotFound();
-            }
-            _context.Projects.Remove(project);
-            _context.SaveChanges();
+            _dataService.DeleteProject(id);
             return RedirectToAction("Index");
         }
 
         public IActionResult AwardAchievements(int id)
         {
-            var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
+            var project = _dataService.GetProjectById(id);
             if (project == null)
             {
                 return NotFound();
             }
-            var achievements = _context.Achievements.ToList();
+            var achievements = _dataService.GetAchievements();
             var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.AchievementId, a.Name, true)).ToArray();
 
             var vm = new AwardAchievementsViewModel(achievementsVM);
@@ -88,21 +68,7 @@ namespace CIMM.Controllers
         {
             if (ModelState.IsValid)
             {
-                var project = _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
-                _context.Entry(project).Collection(p => p.ProjectAchievements).Load();
-
-                if (project == null)
-                {
-                    return NotFound();
-                }
-
-                foreach (var achievementStatus in vm.AchievementStatuses)
-                {
-                    var projectAchievement = project.ProjectAchievements.Find(pa => pa.AchievementId == achievementStatus.AchievementId);
-                    projectAchievement.HasAchievement = achievementStatus.HasAchievement;
-                }
-
-                _context.SaveChanges();
+                _dataService.SetProjectAchievements(id, vm.AchievementStatuses);
                 return RedirectToAction("Index");
             }
             return View(vm);

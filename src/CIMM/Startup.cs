@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CIMM.Data;
 using Microsoft.EntityFrameworkCore;
+using CIMM.Services;
 
 namespace CIMM
 {
@@ -41,6 +42,7 @@ namespace CIMM
             services.AddMvc();
             services.AddDbContext<CIMMContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<ICIMMDataService, CIMMDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

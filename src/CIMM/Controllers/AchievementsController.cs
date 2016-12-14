@@ -4,6 +4,7 @@ using System.Linq;
 using CIMM.Models;
 using CIMM.ViewModels;
 using System.Collections.Generic;
+using CIMM.Services;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,16 +13,16 @@ namespace CIMM.Controllers
     public class AchievementsController : Controller
     {
 
-        private CIMMContext _context;
+        private ICIMMDataService _dataService;
 
-        public AchievementsController(CIMMContext context)
+        public AchievementsController(ICIMMDataService dataService)
         {
-            _context = context;
+            _dataService = dataService;
         }
 
         public IActionResult Index()
         {
-            return View(_context.Achievements.ToList());
+            return View(_dataService.GetAchievements());
         }
 
         public IActionResult Create()
@@ -33,42 +34,17 @@ namespace CIMM.Controllers
         [HttpPost]
         public IActionResult Create(CreateAchievementViewModel vm)
         {
-            var achievement = vm.Achievement;
             if (ModelState.IsValid)
             {
-                _context.Achievements.Add(achievement);
-                _context.SaveChanges();
-
-                // Add the achievement to all projects
-                var projects = _context.Projects.ToList();
-                foreach (var project in projects)
-                {
-                    if (project.ProjectAchievements == null)
-                    {
-                        project.ProjectAchievements = new List<ProjectAchievement>();
-                    }
-                    project.ProjectAchievements.Add(new ProjectAchievement
-                    {
-                        ProjectId = project.ProjectId,
-                        HasAchievement = false,
-                        AchievementId = achievement.AchievementId
-                    });
-                }
-                _context.SaveChanges();
+                _dataService.CreateAchievement(vm.Achievement);
                 return RedirectToAction("Index");
             }
-            return View(achievement);
+            return View(vm.Achievement);
         }
 
         public IActionResult Delete(int id)
         {
-            var achievement = _context.Achievements.Where(a => a.AchievementId == id).FirstOrDefault();
-            if (achievement == null)
-            {
-                return NotFound();
-            }
-            _context.Achievements.Remove(achievement);
-            _context.SaveChanges();
+            _dataService.DeleteAchievement(id);
             return RedirectToAction("Index");
         }
     }

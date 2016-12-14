@@ -14,29 +14,35 @@ namespace CIMM.Data
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            /*var project = new Project
+            /*var nova = new Project
             {
                 Name = "Compute",
                 Description = "OpenStack Compute Project",
                 CIUrl = "https://jenkins.openstack.org",
                 CodeUrl = "https://github.com/openstack/nova",
             };
+            context.Projects.Add(nova);
 
-            context.Projects.Add(project);
-            context.SaveChanges();
-
-            var accomplishments = new Accomplishments
+            var cinder = new Project
             {
-                ProjectId = 1,
-                HasFunctionalTests = true,
-                HasOpsCodeInSourceControl = false,
-                HasStaticAnalysis = true,
-                HasUnitTestCodeCoverageEnabled = false,
-                HasUnitTesting = true
+                Name = "Cinder",
+                Description = "OpenStack Block Storage Project",
+                CIUrl = "https://jenkins.openstack.org",
+                CodeUrl = "https://github.com/openstack/cinder",
+            };
+            context.Projects.Add(cinder);
+
+            var ciServer = new Achievement
+            {
+                Name = "CI Server Setup",
+                Description = "You have a CI server.",
+                Type = AchievementType.Quality,
+                Score = 10
             };
 
-            context.Accomplishments.Add(accomplishments);
+
             context.SaveChanges();*/
+
         }
     }
 }
