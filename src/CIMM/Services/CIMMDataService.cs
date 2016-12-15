@@ -1,6 +1,7 @@
 ﻿using CIMM.Data;
 using CIMM.Models;
 using CIMM.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,11 @@ namespace CIMM.Services
 
         public List<Project> GetProjects() => _context.Projects.ToList();
 
-        public Project GetProjectById(int id) => _context.Projects.Where(p => p.ProjectId == id).FirstOrDefault();
+        public Project GetProjectById(int id) => _context.Projects
+            .Include("ProjectAchievements")
+            .Include("ProjectAchievements.Achievement")
+            .Where(p => p.ProjectId == id)
+            .FirstOrDefault();
 
         public void CreateProject(Project project)
         {

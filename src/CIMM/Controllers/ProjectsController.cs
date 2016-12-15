@@ -56,9 +56,9 @@ namespace CIMM.Controllers
             {
                 return NotFound();
             }
-            var achievements = _dataService.GetAchievements();
-            var achievementsVM = achievements.Select(a => new ProjectAchievementViewModel(a.AchievementId, a.Name, true)).ToArray();
 
+            var achievementsVM = project.ProjectAchievements.Select(pa => 
+                new ProjectAchievementViewModel(pa.AchievementId, pa.Achievement.Name, pa.HasAchievement)).ToArray();
             var vm = new AwardAchievementsViewModel(achievementsVM);
             return View(vm);
         }
