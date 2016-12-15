@@ -130,6 +130,28 @@ namespace CIMM.Services
             }
 
             _context.SaveChanges();
-        }    
+        }
+        
+        public List<Level> GetLevels() => _context.Levels.ToList();
+
+        public Level GetLevelById(int id) => _context.Levels.Where(l => l.Id == id).FirstOrDefault();
+
+        public void CreateLevel(Level level)
+        {
+            _context.Levels.Add(level);
+            _context.SaveChanges();
+        }
+
+        public void DeleteLevel(int id)
+        {
+            var level = _context.Levels.Where(l => l.Id == id).FirstOrDefault();
+            if (level == null)
+            {
+                return;
+            }
+            _context.Levels.Remove(level);
+            _context.SaveChanges();
+        }
+
     }
 }

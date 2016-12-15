@@ -16,7 +16,7 @@ namespace CIMM.Data
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
-        public DbSet<ProjectAchievement> ProjectAchievements { get; set; }
+        public DbSet<Level> Levels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

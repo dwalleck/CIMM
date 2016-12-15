@@ -19,5 +19,9 @@ namespace CIMM.Services
         void CreateAchievement(Achievement achievement);
         void DeleteAchievement(int id);
         void SetProjectAchievements(int id, List<ProjectAchievementViewModel> projectAchievementStatuses);
+        List<Level> GetLevels();
+        Level GetLevelById(int id);
+        void CreateLevel(Level level);
+        void DeleteLevel(int id);
     }
 }

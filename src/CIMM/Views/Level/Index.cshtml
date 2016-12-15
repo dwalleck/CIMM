@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CIMM.Models.Level>
+
+<h2>Levels</h2>
+
+<p>
+    <a asp-controller="Level" asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Minimum Score Threshold</th>
+        <th></th>
+    </tr>
+    @foreach (var level in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => level.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => level.MinimumScoreThreshold)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@level.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@level.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@level.Id">Delete</a>
+            </td>
+
+        </tr>
+    }
+</table>
